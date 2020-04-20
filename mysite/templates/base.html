@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <title>{% block title %} {% endblock title %}</title>
+</head>
+<style>
+  #ad {
+    text-decoration: none;
+    color: green;
+  }
+
+  #ad {
+    color: green;
+  }
+
+  #ad:hover {
+    color: white;
+  }
+</style>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">PrabhatTech</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item {% block homeactive %}
+            {% endblock homeactive %}">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item {% block aboutactive %}
+            {% endblock aboutactive %}">
+          <a class="nav-link" href="/about">AboutUs</a>
+        </li>
+        <li class="nav-item  {% block blogactive %}
+            {% endblock blogactive %} ">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+        <li class="nav-item {% block contactactive %}
+            {% endblock contactactive %}">
+          <a class="nav-link" href="/contact">Contact</a>
+        </li>
+      </ul>
+      <div class="ml-auto form-inline">
+        <form class="form-inline my-2 my-lg-0" method="get" action="/search">
+          <input class="form-control mr-sm-2" name="query" id="search" type="search" placeholder="Search"
+            aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        {% if user.is_authenticated %}
+        <div class="dropdown">
+          <button class="btn btn-outline-success dropdown-toggle my-2 my-sm-0" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Welcome <b>{{request.user |title }}</b>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/logout">Logout</a>
+            <a class="dropdown-item" href="/account/changepassword">Change Password</a>
+            <a class="dropdown-item" href="#">Setting</a>
+          </div>
+        </div>
+        {% else %}
+        <button class="btn btn-outline-success my-2 my-sm-0" data-target="#loginModal"
+          data-toggle="modal">Login</button>
+        <!-- Button trigger Signup modal -->
+        <button type="button" class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal"
+          data-target="#signupModal">
+          SignUp
+        </button>
+        {% endif %}
+      </div>
+
+  </nav>
+  {% for  message in messages  %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>Message: </strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  <!--Login model-->
+
+  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModallabel">Login Here</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/login/" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="UserName">Username</label>
+              <input type="text" class="form-control" id="Username" name="loginusername">
+              <label for="Password">Password</label>
+              <input type="password" class="form-control" id="Password" name="loginpass">
+
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--end login model -->
+
+
+
+  <!-- Signup  Modal -->
+  <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Signup </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/signup/" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="UserName">Username</label>
+              <input type="text" class="form-control" id="Username" name="username">
+              <label for="InputEmail">Email address</label>
+              <input type="email" class="form-control" id="InputEmail1" aria-describedby="emailHelp" name="email">
+            </div>
+            <div class="form-group">
+              <label for="FirstName">First Name</label>
+              <input type="text" class="form-control" id="firstname" name="firstname">
+              <label for="LastName">Last Name</label>
+              <input type="text" class="form-control" id="lastname" name="lastname">
+            </div>
+            <div class="form-group">
+              <label for="Password">Password</label>
+              <input type="password" class="form-control" id="Password" name="pass1">
+              <label for="Password1">Confirm Password</label>
+              <input type="password" class="form-control" id="Password1" name="pass2">
+            </div>
+            <div class="form-group form-check">
+              <label class="checkbox-inline"><input type="checkbox" name="" required=""> I accept the <a href="#"> Terms
+                  of Use </a> &amp; <a href="#"> Privacy Policy</a></label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  {% block body %}
+  {% endblock body %}
+
+</body>
+
+</html>

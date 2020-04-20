@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} Single Blog || Post Here {% endblock title %}
+
+{% block blogactive %} active {% endblock %}
+
+{% block body %}
+<div class="container my-3">
+
+        <h2 class="blog-post-title">{{post.title}}</h2>
+        <p class="blog-post-meta">{{post.timestamp}} <a href="/about">{{post.author}}</a></p>
+
+        
+        <p>{{post.content}}</p>
+      </div>
+{% endblock body %}
