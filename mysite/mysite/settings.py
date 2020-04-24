@@ -131,5 +131,4 @@ STATICFILES_DIRS = [
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
-    
 }
