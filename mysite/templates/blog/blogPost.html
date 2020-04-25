@@ -1,18 +1,21 @@
 {% extends 'base.html' %}
-
 {% block title %} Single Blog || Post Here {% endblock title %}
 
 {% block blogactive %} active {% endblock %}
 
 {% block body %}
+{% load humanize %}
 <div class="container my-3">
 
         <h2 class="blog-post-title">{{post.title}}</h2>
         <p class="blog-post-meta">{{post.timestamp}} <a href="/about">{{post.author}}</a></p>
         <p>{{post.content}}</p>
       </div>
+     
+      
       
       <div class="container">
+       {% if user.is_authenticated %}
         <!-- Comments Form -->
         <div class="card my-4">
           <h5 class="card-header">Leave a Comment:</h5>
@@ -27,16 +30,23 @@
             </form>
           </div>
         </div>
+        <h5 class="card-header my-4">Total Comment ({{comments.count}})</h5>
         <form >
+         {% else %}
+        <p><b>Please Login to post a comment.</b></p>
+      {% endif %}
         {% for comment in comments %}
         <!-- Single Comment -->
         <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="../static/user.png" alt="" height="100px">
+          <img class="d-flex mr-3 rounded-circle " src="../static/user.png" alt="" height="100px">
           <div class="media-body">
-            <h5 class="mt-0">{{comment.user.username|title}} at {{comment.timestamp}}</h5> 
+            <h5 class="mt-0">{{comment.user.username|title}} <small>{{comment.timestamp|naturaltime }}</small></h5> 
             {{comment.comment}}
+            <button class="badge badge-secondary">Reply</button>
           </div>
         </div>
         {% endfor %}
+       
       </div>
+      
 {% endblock body %}
