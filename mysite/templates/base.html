@@ -9,6 +9,10 @@
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <title>{% block title %} {% endblock title %}</title>
 </head>
+  {% block style %}
+
+  {% endblock style %}
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <style>
   #ad {
     text-decoration: none;
@@ -61,11 +65,11 @@
         <form class="form-inline my-2 my-lg-0" method="get" action="/search">
           <input class="form-control mr-sm-2" name="query" id="search" type="search" placeholder="Search"
             aria-label="Search">
-          <button class="btn btn-outline-success my-2 " type="submit">Search</button>
+          <button class="btn btn-outline-primary my-2 " type="submit">Search</button>
         </form>
         {% if user.is_authenticated %}
         <div class="dropdown">
-          <button class="btn btn-outline-success dropdown-toggle my-2 mx-2" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          <button class="btn btn-outline-primary dropdown-toggle my-2 mx-2" type="button" id="dropdownMenuButton" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Welcome <b>{{request.user |title }}</b>
           </button>
@@ -76,10 +80,10 @@
           </div>
         </div>
         {% else %}
-        <button class="btn btn-outline-success my-2 my-sm-0" data-target="#loginModal"
+        <button class="btn btn-outline-primary my-2 mx-2 my-sm-0" data-target="#loginModal"
           data-toggle="modal">Login</button>
         <!-- Button trigger Signup modal -->
-        <button type="button" class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal"
+        <button type="button" class="btn btn-outline-primary my-2 my-sm-0" data-toggle="modal"
           data-target="#signupModal">
           SignUp
         </button>
@@ -180,12 +184,14 @@
     </div>
   </div>
 
-
-
-
   {% block body %}
   {% endblock body %}
-
+  <footer class="py-3 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright © Your Website 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
 </body>
 
 </html>

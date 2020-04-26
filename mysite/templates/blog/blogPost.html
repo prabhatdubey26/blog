@@ -42,7 +42,21 @@
           <div class="media-body">
             <h5 class="mt-0">{{comment.user.username|title}} <small>{{comment.timestamp|naturaltime }}</small></h5> 
             {{comment.comment}}
-            <button class="badge badge-secondary">Reply</button>
+            <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse"
+                        data-target="#openReply_{{comment.sno}}" aria-expanded="false" aria-controls="collapseExample">
+                        Add Reply </button>
+
+                    <!-- replies are here -->
+                    <div class="collapse" id="openReply_{{comment.sno}}">
+                         <form action="/blog/postComment" method="post">
+                          {% csrf_token %}
+                          <input type="hidden" name="postSno" value="{{post.sno}}">
+                            <textarea type="text" class="form-control my-2" placeholder="Write a reply..."
+                                name="comment"></textarea>
+                            <input type="hidden" name="parentSno" value="{{comment.sno}}">
+                            <button class="btn btn-sm btn-primary" type="submit">Reply</button>
+                        </form>
+                    </div>
           </div>
         </div>
         {% endfor %}

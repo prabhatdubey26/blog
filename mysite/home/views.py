@@ -30,7 +30,7 @@ def contact(request):
         return render(request,'home/contact.html')
 
 def about(request):
-    messages.success(request, 'Welcome to About')
+    #messages.success(request, 'Welcome to About')
     return render(request,'home/about.html')
 
 def search(request):
