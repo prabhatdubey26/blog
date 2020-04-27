@@ -74,9 +74,10 @@
             Welcome <b>{{request.user |title }}</b>
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="/logout">Logout</a>
+            <a class="dropdown-item" href="#">View Profile</a>
             <a class="dropdown-item" href="/account/changepassword">Change Password</a>
-            <a class="dropdown-item" href="#">Setting</a>
+            <a class="dropdown-item" href="/logout">Logout</a>
+            
           </div>
         </div>
         {% else %}

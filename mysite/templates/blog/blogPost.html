@@ -5,62 +5,78 @@
 
 {% block body %}
 {% load humanize %}
-<div class="container my-3">
+{% load extras %}
 
-        <h2 class="blog-post-title">{{post.title}}</h2>
-        <p class="blog-post-meta">{{post.timestamp}} <a href="/about">{{post.author}}</a></p>
-        <p>{{post.content}}</p>
-      </div>
-     
-      
-      
-      <div class="container">
-       {% if user.is_authenticated %}
-        <!-- Comments Form -->
-        <div class="card my-4">
-          <h5 class="card-header">Leave a Comment:</h5>
-          <div class="card-body">
-            <form action="/blog/postComment" method="post">
-               {% csrf_token %}
-                <input type="hidden" name="postSno" value="{{post.sno}}">
-              <div class="form-group">
-                <textarea class="form-control" name="comment" rows="3"></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-          </div>
-        </div>
-        <h5 class="card-header my-4">Total Comment ({{comments.count}})</h5>
-        <form >
-         {% else %}
-        <p><b>Please Login to post a comment.</b></p>
-      {% endif %}
-        {% for comment in comments %}
-        <!-- Single Comment -->
-        <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle " src="../static/user.png" alt="" height="100px">
-          <div class="media-body">
-            <h5 class="mt-0">{{comment.user.username|title}} <small>{{comment.timestamp|naturaltime }}</small></h5> 
-            {{comment.comment}}
-            <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse"
-                        data-target="#openReply_{{comment.sno}}" aria-expanded="false" aria-controls="collapseExample">
-                        Add Reply </button>
+  <div class="container my-3">
 
-                    <!-- replies are here -->
-                    <div class="collapse" id="openReply_{{comment.sno}}">
-                         <form action="/blog/postComment" method="post">
-                          {% csrf_token %}
-                          <input type="hidden" name="postSno" value="{{post.sno}}">
-                            <textarea type="text" class="form-control my-2" placeholder="Write a reply..."
-                                name="comment"></textarea>
-                            <input type="hidden" name="parentSno" value="{{comment.sno}}">
-                            <button class="btn btn-sm btn-primary" type="submit">Reply</button>
-                        </form>
-                    </div>
-          </div>
+          <h2 class="blog-post-title">{{post.title}}</h2>
+          <p class="blog-post-meta">{{post.timestamp}} <a href="/about">{{post.author}}</a></p>
+          <p>{{post.content}}</p>
         </div>
-        {% endfor %}
-       
-      </div>
+      
+        
+        
+        <div class="container">
+        {% if user.is_authenticated %}
+          <!-- Comments Form -->
+          <div class="card my-4">
+            <h5 class="card-header">Leave a Comment:</h5>
+            <div class="card-body">
+              <form action="/blog/postComment" method="post">
+                {% csrf_token %}
+                  <input type="hidden" name="postSno" value="{{post.sno}}">
+                <div class="form-group">
+                  <textarea class="form-control" name="comment" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+          <h5 class="card-header my-4">Total Comment ({{comments.count}})</h5>
+          <form >
+          {% else %}
+          <p><b>Please Login to post a comment.</b></p>
+        {% endif %}
+          {% for comment in comments %}
+          <!-- Single Comment -->
+          <div class="media mb-4">
+            <img class="d-flex mr-3 rounded-circle " src="../static/user.png" alt="" height="100px">
+            <div class="media-body">
+              <h5 class="mt-0">{{comment.user.username|title}} <small>{{comment.timestamp|naturaltime }}</small></h5> 
+              {{comment.comment}}
+              <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse"
+                          data-target="#openReply_{{comment.sno}}" aria-expanded="false" aria-controls="collapseExample">
+                          Add Reply </button>
+
+                      <!-- replies are here -->
+                      <div class="collapse" id="openReply_{{comment.sno}}">
+                          <form action="/blog/postComment" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="postSno" value="{{post.sno}}">
+                              <textarea type="text" class="form-control my-2" placeholder="Write a reply..."
+                                  name="comment"></textarea>
+                              <input type="hidden" name="parentSno" value="{{comment.sno}}">
+                              <button class="btn btn-sm btn-primary" type="submit">Reply</button>
+                          </form>
+                      </div>
+                      <div class="replies my-2">
+                        {% for reply in replyDict|get_val:comment.sno %}
+                        {% for replyname in replies %}
+                          <div class="media mt-4">
+                            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                            <div class="media-body">
+                              <h5 class="mt-0">{{replyname.user}}</h5>
+                              {{reply}}
+                            </div>
+                          </div>
+                          {% endfor %}
+                        {% endfor %}
+                      </div>
+            </div>
+            
+          </div>
+          {% endfor %}
+          
+        </div>
       
 {% endblock body %}
