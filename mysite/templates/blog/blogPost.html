@@ -61,15 +61,15 @@
                       </div>
                       <div class="replies my-2">
                         {% for reply in replyDict|get_val:comment.sno %}
-                        {% for replyname in replies %}
+                        <!-- {% for replyname in replies %}
                           <div class="media mt-4">
                             <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                             <div class="media-body">
-                              <h5 class="mt-0">{{replyname.user}}</h5>
+                              <h5 class="mt-0">{{replyname.user}}</h5> -->
                               {{reply}}
-                            </div>
+                            <!-- </div>
                           </div>
-                          {% endfor %}
+                          {% endfor %} -->
                         {% endfor %}
                       </div>
             </div>

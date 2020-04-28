@@ -6,11 +6,7 @@ from django.contrib.auth.models import User
 from blog.models import Post
 # Create your views here.
 def home(request):
-    allPosts = Post.objects.all().filter(sno=1)
-    allPosts = Post.objects.all().filter(sno=2)
-
-    context = {'allPosts' : allPosts}
-    return render(request,'home/home.html', context)
+    return render(request,'home/home.html')
 
 def contact(request):
     if request.method =='POST':
@@ -32,6 +28,36 @@ def contact(request):
 def about(request):
     #messages.success(request, 'Welcome to About')
     return render(request,'home/about.html')
+
+def viewprofile(request):
+    if request.method == 'POST':
+        id = request.POST['id']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+        userdata = User.objects.get(id=id)
+        userdata.first_name = first_name
+        userdata.last_name = last_name
+        userdata.email = email
+        userdata.save()
+        messages.success(request, "Your Profile Updated successfully.")
+    user = request.user
+    profile = User.objects.filter(username=user)
+    context = {'profile' : profile}
+    return render(request,'home/viewprofile.html',context)
+
+def change_password(request):
+    if request.method == 'POST':
+        old_pass = request.POST['old_pass']
+        new_pass = request.POST['new_pass']
+        confirm_pass = request.POST['confirm_pass']
+        user = request.POST['user']
+        profile = User.objects.filter(username=user)
+        oldps = User.objects.check_password(old_pass)
+        for i in profile:
+            pawd = i.password
+        print(pawd)
+    return render(request,'home/change_password.html')
 
 def search(request):
     query=request.GET['query']
@@ -104,5 +130,5 @@ def loginhandle(request):
 
 def userlogout(request):
     logout(request)
-    messages.success(request,'Successfully Logged out')
+    #messages.success(request,'Successfully Logged out')
     return redirect('/')

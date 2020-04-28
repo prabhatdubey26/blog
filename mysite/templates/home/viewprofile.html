@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %} View Profile {% endblock title %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row">
+       <div class="col-md-3"></div>
+       <div class="col-md-6 my-4">
+           {% for data in profile %}
+                <form action="" method="post">
+                {% csrf_token %}
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label for="first_name"><h4>Username</h4></label>
+                            <input type="hidden" name="id" id="id" value="{{data.id}}">
+                            <input type="text" class="form-control" name="username" id="username" value="{{data.username}}" title="enter your first name if any." readonly>
+                        </div>
+                    </div>
+                      <div class="form-group">
+                          <div class="col-xs-6">
+                              <label for="first_name"><h4>First name</h4></label>
+                              <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Full name" value="{{data.first_name}}" title="enter your first name if any.">
+                          </div>
+                      </div>
+                      <div class="form-group"> 
+                          <div class="col-xs-6">
+                            <label for="last_name"><h4>Last name</h4></label>
+                              <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Father's name" value="{{data.last_name}}" title="enter your last name if any.">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-xs-6">
+                              <label for="email"><h4>Email</h4></label>
+                              <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" value="{{data.email}}" title="enter your email.">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                           <div class="col-xs-12">
+                                <br>
+                                <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Update</button>
+                                <button class="btn btn-lg btn-danger" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                            </div>
+                      </div>
+                    </form>
+                    {% endfor %}
+       </div><!--/col-md-6-->
+       <div class="col-md-3"></div>
+    </div><!--/row-->
+ </div>
+
+{% endblock %}
