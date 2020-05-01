@@ -44,10 +44,13 @@
             <div class="media-body">
               <h5 class="mt-0">{{comment.user.username|title}} <small>{{comment.timestamp|naturaltime }}</small></h5> 
               {{comment.comment}}
-              <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse"
+              {% if user.is_authenticated %}
+                  <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse"
                           data-target="#openReply_{{comment.sno}}" aria-expanded="false" aria-controls="collapseExample">
                           Add Reply </button>
-
+                          {% else %}
+                          <p><b>Please Login to reply a comment.</b></p>
+                    {% endif %}
                       <!-- replies are here -->
                       <div class="collapse" id="openReply_{{comment.sno}}">
                           <form action="/blog/postComment" method="post">
@@ -61,15 +64,15 @@
                       </div>
                       <div class="replies my-2">
                         {% for reply in replyDict|get_val:comment.sno %}
-                        <!-- {% for replyname in replies %}
+                      
                           <div class="media mt-4">
-                            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                            <img class="d-flex mr-3 rounded-circle" src="../static/user.png" alt="" height="100px">
                             <div class="media-body">
-                              <h5 class="mt-0">{{replyname.user}}</h5> -->
-                              {{reply}}
-                            <!-- </div>
+                              <h5 class="mt-0">{{reply.user|title}}
+                              <small>{{reply.timestamp|naturaltime }}</small></h5> 
+                              {{reply.comment}}
                           </div>
-                          {% endfor %} -->
+                          </div>
                         {% endfor %}
                       </div>
             </div>
